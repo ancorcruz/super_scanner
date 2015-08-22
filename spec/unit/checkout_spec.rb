@@ -32,6 +32,16 @@ module SuperScanner
 
         it { is_expected.to eql 130 }
       end
+
+      context 'when a scanned item has no pricing rule' do
+        let(:message) { 'Pricing rule not found for "W"' }
+
+        before do
+          checkout.scan('W')
+        end
+
+        it { expect { subject }.to raise_error(Checkout::PricingRuleNotFound, message) }
+      end
     end
 
     describe '#scan' do
